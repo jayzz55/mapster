@@ -4,9 +4,11 @@ var MAP,
 
 $(document).ready(function() {
 
+  // Initialize & Create the google map on DOM element ID 'map-canvas' with the configured MAP_OPTIONS from mapOptions.js.
   MAP = Mapster.create('map-canvas', Mapster.MAP_OPTIONS);
 
-   MAP.setPlaces('txtPlaces', {
+  // Hook the Google Place Auto-Complete utility on input with ID 'txtPlaces'.
+  MAP.setPlaces('txtPlaces', {
     events: [{
       name: 'place_changed',
       callback: function(e, places){
@@ -16,6 +18,7 @@ $(document).ready(function() {
     }]
   });
 
+  // Using HTML5 navigator to get geolocation if the feature is available and then pan the map to the location.
   MAP.getCurrentPosition( function(position) {
     var lat = position.coords.latitude,
         lng = position.coords.longitude;
@@ -27,9 +30,11 @@ $(document).ready(function() {
 
   });
 
+  // Seed data by adding markers
   seedData();
 
-  displayVisibleMarker('total-result');
+  // Dipslay visible markers count
+  MAP.visibleMarkersCount('total-result');
   
 })
 
@@ -86,15 +91,6 @@ function seedData() {
   }
 };
 
-function displayVisibleMarker(selector) {
-  var visibleMarkers = MAP.findBy(function(marker) {
-    return marker.getVisible();
-  });
-
-  document.getElementById(selector).innerHTML = visibleMarkers.length;
-
-}
-
 function evaluateCondition(base, collection) {
   var result = false;
   $.each(collection, function() {
@@ -123,7 +119,7 @@ $('input').on('change', function() {
 
   MAP.markerClusterer.repaint();
 
-  displayVisibleMarker('total-result');
+  MAP.visibleMarkersCount('total-result');
 
 });
 

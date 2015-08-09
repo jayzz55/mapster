@@ -158,8 +158,15 @@
       _createMarker: function(opts) {
         opts.map = this.gMap;
         return new google.maps.Marker(opts);
-      }
+      },
 
+      visibleMarkersCount: function(selector) {
+        var visibleMarkers = MAP.findBy(function(marker) {
+          return marker.getVisible();
+        });
+
+        document.getElementById(selector).innerHTML = visibleMarkers.length;
+      }
     };
 
     return Mapster;
