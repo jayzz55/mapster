@@ -1,6 +1,6 @@
 var MAP,
-    venueSelected,
-    venueDogFriendly;
+    venueTypeChecked,
+    venueDogFriendlyChecked;
 
 $(document).ready(function() {
 
@@ -38,15 +38,17 @@ $(document).ready(function() {
   
 })
 
+// seed data
 function seedData() {
   for (var i = 0; i < 40; i++) {
     MAP.addMarker({
-      lat: -37.818667 + Math.random()/50,
-      lng: 144.971466 + Math.random()/50,
-      animation: google.maps.Animation.DROP,
-      content: 'I like my girl',
-      venue_type: 'romantic',
-      venue_dog_friendly: 'yes'
+      lat: -37.818667 + Math.random()/50, // Specifiy the lat prop of the marker
+      lng: 144.971466 + Math.random()/50, // Specifiy the lng prop of the marker
+
+      animation: google.maps.Animation.DROP, // add animation to the marker property
+      content: 'I like my girl', // add content info to the marker property.
+      venue_type: 'romantic', // add venue_type attribute on the marker
+      venue_dog_friendly: 'yes' // add venue_dog_friendly attribute on the marker
     });
     
     MAP.addMarker({
@@ -91,6 +93,7 @@ function seedData() {
   }
 };
 
+// evaluate the OR condition across a name category
 function evaluateCondition(base, collection) {
   var result = false;
   $.each(collection, function() {
@@ -99,9 +102,10 @@ function evaluateCondition(base, collection) {
   return result;
 }
 
-$('input').on('change', function() {
-  var venueTypeChecked = $('input[name="venue_type"]:checked'),
-        venueDogFriendlyChecked = $('input[name="venue_dog_friendly"]:checked');
+// add on 'Change' event handler on the input checkbox
+$('input[type="checkbox"]').on('change', function() {
+  venueTypeChecked = $('input[name="venue_type"]:checked');
+  venueDogFriendlyChecked = $('input[name="venue_dog_friendly"]:checked');
        
   MAP.findBy(function(marker) {
     var totalCondition1 = false,
@@ -122,4 +126,3 @@ $('input').on('change', function() {
   MAP.visibleMarkersCount('total-result');
 
 });
-
