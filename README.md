@@ -89,5 +89,6 @@ Refer to the example folder, or the [live demo link](http://jayzz55.github.io/ma
 *  ```removeBy(callback)``` = remove the markers that satisfy the condition in the evaluated callback funciton.
 *  ```removeAll()``` = remove all marker on the map.
 *  ```visibleMarkersCount(selector)``` = count the visible markers on the map and render it on the DOM element with ID selector.
+
 ## Credits:
 * Big thanks to David East, the library is built upon from one of David's course - [Tutsplus - Custom interactive maps with goole maps api](https://code.tutsplus.com/courses/custom-interactive-maps-with-the-google-maps-api)
