@@ -167,4 +167,9 @@
   }());
   
   Mapster.create = function(element, opts) {
-
+    return new Mapster(element, opts);
+  };
+  
+  window.Mapster = Mapster;
+  
+}(window, google));
