@@ -15,15 +15,13 @@
         }
       },
       find: function(callback, action) {
-        var callbackReturn,
-            items = this.items,
+        var items = this.items,
             length = items.length,
             matches = [],
             i = 0;
 
         for (; i < length; i++) {
-          callbackReturn = callback(items[i],i);
-          if (callbackReturn) {
+          if (callback(items[i],i)) {
             matches.push(items[i]);
           }
         }
