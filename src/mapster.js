@@ -4,6 +4,17 @@
 
     function Mapster(selector, opts) {
 
+      if (opts === undefined) {
+        opts = {
+          center: {
+            lat: -37.818667,
+            lng: 144.971466
+          },
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+      }
+
       var element = document.getElementById(selector);
 
       this.gMap = new google.maps.Map(element, opts);
