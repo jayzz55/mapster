@@ -58,7 +58,7 @@
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(callback); //function(position) {
             //callback.call(this, position);
-          });
+         // });
         }
       },
 
@@ -131,7 +131,21 @@
         return this.markers.find(callback);
       },
 
-      remove: function(set) {
+      removeBy: function(callback) {
+        return mapster.markers.find(callback, this._remove);
+
+    //    matches.forEach(function(match) {
+   //       mapster.markers.remove(match);
+    //    });
+
+//        return mapster.markers;
+      },
+
+      removeAll: function() {
+        this._remove(this.markers);
+      },
+
+      _remove: function(set) {
         var mapster = this;
 
         set.forEach(function(marker) {
@@ -145,20 +159,6 @@
         });
 
         return mapster.markers;
-      },
-
-      removeBy: function(callback) {
-        return mapster.markers.find(callback, this.remove);
-
-    //    matches.forEach(function(match) {
-   //       mapster.markers.remove(match);
-    //    });
-
-//        return mapster.markers;
-      },
-
-      removeAll: function() {
-        this.remove(this.markers);
       },
 
       _createMarker: function(opts) {
