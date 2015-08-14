@@ -18,15 +18,49 @@ ensure that the following script is included in your html page in the following 
 ## How do I use this?
 
 ### To create map
-create a MAP var that initiate the creation of the MAPSTER object. The map is hooked on the DOM element with ID 'map-canvas'
 ``` javascript
- var MAP = Mapster.create('map-canvas', {
-   center: {
-     lat: -37.818667,
-     lng: 144.971466
-   },
-   cluster: true
- });
+Mapster.create(selector, options)
+```
+
+This create a MAP var that initiate the creation of the MAPSTER object. The map is hooked on the DOM element with ID 'map-canvas' and options that can be configured. 
+
+Example:
+``` javascript
+var MAP = Mapster.create('map-canvas', {
+  center: {
+    lat: -37.818667,
+    lng: 144.971466
+  },
+  // further optional configuration setting for the map
+  zoom: 10,
+  disableDefaultUI: false,
+  scrollwheel: true,
+  draggable: true,
+  mapTypeId: google.maps.MapTypeId.ROADMAP,
+  zoomControlOptions: {
+    position: google.maps.ControlPosition.LEFT_BOTTOM,
+    style: google.maps.ZoomControlStyle.DEFAULT
+  },
+  panControlOptions: {
+    position: google.maps.ControlPosition.LEFT_BOTTOM
+  },
+  cluster: {
+    options: {
+      styles: [{
+        url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m2.png',
+        height: 56,
+        width: 55,
+        textColor: '#F00',
+        textSize: 18
+      },{
+        url: 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/images/m1.png',
+        height: 56,
+        width: 55
+      }]
+    }
+  },
+  geocoder: true //activate geocoding function
+});
 ```
 
 ### To hook Google Place AutoComplete
