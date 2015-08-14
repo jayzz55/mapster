@@ -78,7 +78,7 @@ This will hook the Google Place Auto-Complete on the DOM input element with ID '
 ```
 
 ### To use HTML5 and get user's geolocation
-This will utilize HTML5 navigator function to get the user's geolocation if the feature is enabled, and then pan the map to the user's location (or to the default location set in mapOptions.js if the feature is disabled)
+This will utilize HTML5 navigator function to get the user's geolocation if the feature is enabled, and then pan the map to the user's location (or to the default location set in map's options if the feature is disabled)
 ```javascript
  MAP.getCurrentPosition( function(position) {
   MAP.panTo({
@@ -112,7 +112,7 @@ Refer to the example folder, or the [live demo link](http://jayzz55.github.io/ma
 * ``` zoom()``` = get current map's zoom level.
 *  ``` zoom(num)``` = set current map's zoom level to specified num.
 *  ``` panTo(coord)``` = pan the map to the specified coord position ```{lat: xx, lng: xx}```.
-*  ```geocode(opts)``` = if ```geocoder``` = is enabled in mapOptions.js, we can pass in an address to the marker's ```address``` property to geocode the location through google map.
+*  ```geocode(opts)``` = if ```geocoder``` = is enabled in map's options, we can pass in an address to the marker's ```address``` property to geocode the location through google map.
 *  ```getCurrentPosition(callback)``` = Get user's current position. this function takes a callback that will be evaluated if the feature is enabled on the user's browser.
 *  ```setPlaces(selector, opts)``` = Hook google place to the DOM element with id selector. by passing the callback we can specify the event we want to trigger, eg: on ```place_changed``` event.
 *  ```addMarker(opts)``` = add maker onto the map, and passing in options.
