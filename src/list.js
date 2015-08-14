@@ -42,5 +42,4 @@
   };
 
   window.List = List;
-  
 } (window));

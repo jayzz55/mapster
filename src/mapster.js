@@ -61,9 +61,7 @@
 
       getCurrentPosition: function(callback) {
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(callback); //function(position) {
-            //callback.call(this, position);
-         // });
+          navigator.geolocation.getCurrentPosition(callback);
         }
       },
 
@@ -118,8 +116,8 @@
             });
 
             infoWindow.open(this.gMap, marker);
-           }
-         })
+          }
+        })
       },
 
       _attachEvents: function(obj, events) {
@@ -138,12 +136,6 @@
 
       removeBy: function(callback) {
         return mapster.markers.find(callback, this._remove);
-
-    //    matches.forEach(function(match) {
-   //       mapster.markers.remove(match);
-    //    });
-
-//        return mapster.markers;
       },
 
       removeAll: function() {
