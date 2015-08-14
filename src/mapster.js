@@ -5,8 +5,13 @@
     function Mapster(selector, opts) {
       var element = document.getElementById(selector);
 
-      // TODO: SET SANE DEFAULTS ON opts HERE.
-      //       REMOVE MAP_OPTIONS
+      if (!opts.zoom) {
+        opts.zoom = 16;
+      }
+
+      if (!opts.mapTypeId) {
+        opts.mapTypeId = google.maps.MapTypeId.ROADMAP;
+      }
 
       this.gMap = new google.maps.Map(element, opts);
       this.infoWindows = List.create();

@@ -4,8 +4,14 @@ var MAP,
 
 $(document).ready(function() {
 
-  // Initialize & Create the google map on DOM element ID 'map-canvas' with the configured MAP_OPTIONS from mapOptions.js.
-  MAP = Mapster.create('map-canvas', Mapster.MAP_OPTIONS);
+  // Initialize & Create the google map on DOM element ID 'map-canvas'.
+  MAP = Mapster.create('map-canvas', {
+    center: {
+      lat: -37.818667,
+      lng: 144.971466
+    },
+    cluster: true
+  });
 
   // Hook the Google Place Auto-Complete utility on input with ID 'txtPlaces'.
   MAP.setPlaces('txtPlaces', {
