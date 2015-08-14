@@ -12,10 +12,7 @@ By separating the logic of handling the map object, and the list of items / stat
 ensure that the following script is included in your html page in the following order:
  ``` html
  <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script> // Google map api with Google Place library enabled.
- <script src='../src/markerClustererPlus.js'></script> // Marker clusterer plus library
- <script src='../src/list.js'></script> // this script handles the list logic
- <script src='../src/mapster.js'></script> // this script handles the map object
- <script src='../src/mapOptions.js'></script> // this script contains the map configuration options
+ <script src='/mapster.min.js'></script> // Marker clusterer plus library
 ```
 
 ## How do I use this?
