@@ -1,1 +1,5 @@
 *.sw*
+
+/dist
+/example
+/src
