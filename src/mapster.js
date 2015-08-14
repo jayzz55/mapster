@@ -3,19 +3,15 @@
   var Mapster = (function() {
 
     function Mapster(selector, opts) {
+      var element = document.getElementById(selector);
 
-      if (opts === undefined) {
-        opts = {
-          center: {
-            lat: -37.818667,
-            lng: 144.971466
-          },
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
+      if (!opts.zoom) {
+        opts.zoom = 16;
       }
 
-      var element = document.getElementById(selector);
+      if (!opts.mapTypeId) {
+        opts.mapTypeId = google.maps.MapTypeId.ROADMAP;
+      }
 
       this.gMap = new google.maps.Map(element, opts);
       this.infoWindows = List.create();
@@ -28,7 +24,6 @@
       if (opts.geocoder) {
         this.geocoder = new google.maps.Geocoder();
       }
-
     }
 
     Mapster.prototype = {
@@ -36,9 +31,9 @@
       zoom: function(level) {
         if (level) {
           this.gMap.setZoom(level);
-        } else {
-          return this.gMap.getZoom();
         }
+
+        return this.gMap.getZoom();
       },
 
       panTo: function(coords) {
@@ -66,9 +61,7 @@
 
       getCurrentPosition: function(callback) {
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            callback.call(this, position);
-          });
+          navigator.geolocation.getCurrentPosition(callback);
         }
       },
 
@@ -95,6 +88,7 @@
         }
         
         this.markers.add(marker);
+
         if (opts.events) {
           this._attachEvents(marker, opts.events);
         }
@@ -122,8 +116,8 @@
             });
 
             infoWindow.open(this.gMap, marker);
-           }
-         })
+          }
+        })
       },
 
       _attachEvents: function(obj, events) {
@@ -141,29 +135,27 @@
       },
 
       removeBy: function(callback) {
-        var matches;
-
-        matches = this.markers.find(callback, function(markers) {
-          markers.forEach(function(marker) {
-            if (this.markerClusterer) {
-              this.markerClusterer.removeMarker(marker);
-            } else {
-              marker.setMap(null);              
-            }
-          }.bind(this));
-        }.bind(this));
-
-        matches.forEach(function(match) {
-          this.markers.remove(match);
-        }.bind(this));
-
-        return this.markers;
+        return mapster.markers.find(callback, this._remove);
       },
 
       removeAll: function() {
-        this.removeBy(function() {
-          return true;
+        this._remove(this.markers);
+      },
+
+      _remove: function(set) {
+        var mapster = this;
+
+        set.forEach(function(marker) {
+          if (mapster.markerClusterer) {
+            mapster.markerClusterer.removeMarker(marker);
+          } else {
+            marker.setMap(null);              
+          }
+
+          mapster.markers.remove(marker);
         });
+
+        return mapster.markers;
       },
 
       _createMarker: function(opts) {
@@ -172,7 +164,7 @@
       },
 
       visibleMarkersCount: function(selector) {
-        var visibleMarkers = MAP.findBy(function(marker) {
+        var visibleMarkers = this.findBy(function(marker) {
           return marker.getVisible();
         });
 

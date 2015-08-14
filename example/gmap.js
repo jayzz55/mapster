@@ -4,8 +4,14 @@ var MAP,
 
 $(document).ready(function() {
 
-  // Initialize & Create the google map on DOM element ID 'map-canvas' with the configured MAP_OPTIONS from mapOptions.js.
-  MAP = Mapster.create('map-canvas', Mapster.MAP_OPTIONS);
+  // Initialize & Create the google map on DOM element ID 'map-canvas'.
+  MAP = Mapster.create('map-canvas', {
+    center: {
+      lat: -37.818667,
+      lng: 144.971466
+    },
+    cluster: true
+  });
 
   // Hook the Google Place Auto-Complete utility on input with ID 'txtPlaces'.
   MAP.setPlaces('txtPlaces', {
@@ -13,42 +19,39 @@ $(document).ready(function() {
       name: 'place_changed',
       callback: function(e, places){
         var place = places.getPlace();
-        console.log(place.geometry.location);
+
+        MAP.panTo({
+          lat: place.geometry.location.G,
+          lng: place.geometry.location.K
+        });
       }
     }]
   });
 
   // Using HTML5 navigator to get geolocation if the feature is available and then pan the map to the location.
   MAP.getCurrentPosition( function(position) {
-    var lat = position.coords.latitude,
-        lng = position.coords.longitude;
-
     MAP.panTo({
-      lat: lat,
-      lng: lng
-    });      
-
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    });
   });
 
-  // Seed data by adding markers
   seedData();
 
-  // Dipslay visible markers count
   MAP.visibleMarkersCount('total-result');
-  
+
 })
 
 // seed data
 function seedData() {
   for (var i = 0; i < 40; i++) {
     MAP.addMarker({
-      lat: -37.818667 + Math.random()/50, // Specifiy the lat prop of the marker
-      lng: 144.971466 + Math.random()/50, // Specifiy the lng prop of the marker
-
-      animation: google.maps.Animation.DROP, // add animation to the marker property
-      content: 'I like my girl', // add content info to the marker property.
-      venue_type: 'romantic', // add venue_type attribute on the marker
-      venue_dog_friendly: 'yes' // add venue_dog_friendly attribute on the marker
+      lat: -37.818667 + Math.random()/50,
+      lng: 144.971466 + Math.random()/50,
+      animation: google.maps.Animation.DROP,
+      content: 'I like my girl',
+      venue_type: 'romantic', // Custom attributes.
+      venue_dog_friendly: 'yes'
     });
     
     MAP.addMarker({
@@ -108,17 +111,10 @@ $('input[type="checkbox"]').on('change', function() {
   venueDogFriendlyChecked = $('input[name="venue_dog_friendly"]:checked');
        
   MAP.findBy(function(marker) {
-    var totalCondition1 = false,
-        totalCondition2 = false;
-
-    totalCondition1 = evaluateCondition(marker.venue_type, venueTypeChecked);
-    totalCondition2 = evaluateCondition(marker.venue_dog_friendly, venueDogFriendlyChecked);
+    var totalCond = evaluateCondition(marker.venue_type, venueTypeChecked) &&
+                    evaluateCondition(marker.venue_dog_friendly, venueDogFriendlyChecked);
         
-    if (totalCondition1 && totalCondition2) {
-      marker.setVisible(true);
-    } else {
-      marker.setVisible(false);
-    };
+    marker.setVisible(totalCond);
   });
 
   MAP.markerClusterer.repaint();

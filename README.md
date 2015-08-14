@@ -12,18 +12,21 @@ By separating the logic of handling the map object, and the list of items / stat
 ensure that the following script is included in your html page in the following order:
  ``` html
  <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script> // Google map api with Google Place library enabled.
- <script src='../src/markerClustererPlus.js'></script> // Marker clusterer plus library
- <script src='../src/list.js'></script> // this script handles the list logic
- <script src='../src/mapster.js'></script> // this script handles the map object
- <script src='../src/mapOptions.js'></script> // this script contains the map configuration options
+ <script src="/mapster.min.js"></script>
 ```
 
 ## How do I use this?
 
 ### To create map
-create a MAP var that initiate the creation of the MAPSTER object. The map is created with the MAP_OPTIONS as specified in "mapOptions.js", and the map is hooked on the DOM element with ID 'map-canvas'
+create a MAP var that initiate the creation of the MAPSTER object. The map is hooked on the DOM element with ID 'map-canvas'
 ``` javascript
- var MAP = Mapster.create('map-canvas', Mapster.MAP_OPTIONS);
+ var MAP = Mapster.create('map-canvas', {
+   center: {
+     lat: -37.818667,
+     lng: 144.971466
+   },
+   cluster: true
+ });
 ```
 
 ### To hook Google Place AutoComplete
@@ -44,26 +47,20 @@ This will hook the Google Place Auto-Complete on the DOM input element with ID '
 This will utilize HTML5 navigator function to get the user's geolocation if the feature is enabled, and then pan the map to the user's location (or to the default location set in mapOptions.js if the feature is disabled)
 ```javascript
  MAP.getCurrentPosition( function(position) {
-    var lat = position.coords.latitude,
-        lng = position.coords.longitude;
-
-    MAP.panTo({
-      lat: lat,
-      lng: lng
-    });      
-
+  MAP.panTo({
+    lat: position.coords.latitude,
+    lng: position.coords.longitude
   });
+});
 ```
 ### Add marker on the map
 This will add marker onto the map. We can pass in properties to the markers as object. The properties include event, custom styles, marker's properties, or additional properties we'd like to add onto the marker.
 ```javascript
  MAP.addMarker({
-      lat: -37.818667 + Math.random()/50, // Specifiy the lat prop of the marker
-      lng: 144.971466 + Math.random()/50, // Specifiy the lng prop of the marker
-      animation: google.maps.Animation.DROP, // add animation to the marker property
-      content: 'I like my girl', // add content info to the marker property.
-      venue_type: 'romantic', // add venue_type attribute on the marker
-      venue_dog_friendly: 'yes' // add venue_dog_friendly attribute on the marker
+   lat: -37.818667,
+   lng: 144.971466,
+   animation: google.maps.Animation.DROP,
+   content: 'Marker content',
 });
 ```
 ### Get a list of marker 
@@ -89,6 +86,11 @@ Refer to the example folder, or the [live demo link](http://jayzz55.github.io/ma
 *  ```removeBy(callback)``` = remove the markers that satisfy the condition in the evaluated callback funciton.
 *  ```removeAll()``` = remove all marker on the map.
 *  ```visibleMarkersCount(selector)``` = count the visible markers on the map and render it on the DOM element with ID selector.
+
+### PACKAGE
+```
+uglifyjs -c -m -o dist/mapster.min.js src/markerClustererPlus.js src/list.js src/mapster.js
+```
 
 ## Credits:
 * Big thanks to David East, the library is built upon from one of David's course - [Tutsplus - Custom interactive maps with goole maps api](https://code.tutsplus.com/courses/custom-interactive-maps-with-the-google-maps-api)
