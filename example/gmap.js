@@ -25,7 +25,11 @@ $(document).ready(function() {
           lng: place.geometry.location.K
         });
       }
-    }]
+    }],
+    places: {
+      types: ['(regions)'],
+      componentRestrictions: {country: "au"}
+    }
   });
 
   // Using HTML5 navigator to get geolocation if the feature is available and then pan the map to the location.

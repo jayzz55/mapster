@@ -67,7 +67,7 @@
 
      setPlaces: function(selector, opts) {
         var element = document.getElementById(selector),
-            places = new google.maps.places.Autocomplete(element);
+            places = new google.maps.places.Autocomplete(element, opts.places);
         
         this._attachEvents(places, opts.events);
       },
