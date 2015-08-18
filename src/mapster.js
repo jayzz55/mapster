@@ -135,15 +135,17 @@
       },
 
       removeBy: function(callback) {
-        return mapster.markers.find(callback, this._remove);
+        var set = this.markers.find(callback);
+        this._remove(set);
       },
 
       removeAll: function() {
-        this._remove(this.markers);
+        this._remove(this.markers.items);
       },
 
-      _remove: function(set) {
-        var mapster = this;
+      _remove: function(markers) {
+        var mapster = this,
+            set = this._clone(markers);
 
         set.forEach(function(marker) {
           if (mapster.markerClusterer) {
@@ -156,6 +158,18 @@
         });
 
         return mapster.markers;
+      },
+
+      _clone: function(o) {
+        var copy = Object.create(Object.getPrototypeOf(o));
+        var propNames = Object.getOwnPropertyNames(o);
+
+        propNames.forEach(function(name) {
+          var desc = Object.getOwnPropertyDescriptor(o, name);
+          Object.defineProperty(copy, name, desc);
+        });
+
+        return copy;
       },
 
       _createMarker: function(opts) {
