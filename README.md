@@ -64,17 +64,27 @@ var MAP = Mapster.create('map-canvas', {
 ```
 
 ### To hook Google Place AutoComplete
-This will hook the Google Place Auto-Complete on the DOM input element with ID 'txtPlaces'
+This will hook the Google Place Auto-Complete on the DOM input element with ID 'txtPlaces'. The snippet code below also passing in the options to attach events, and also limit the Google Autocomplete search.
+
 ``` javascript
- MAP.setPlaces('txtPlaces', {
+  MAP.setPlaces('txtPlaces', {
     events: [{
       name: 'place_changed',
       callback: function(e, places){
         var place = places.getPlace();
-        console.log(place.geometry.location);
+
+        MAP.panTo({
+          lat: place.geometry.location.G,
+          lng: place.geometry.location.K
+        });
       }
-    }]
+    }],
+    places: {
+      types: ['(regions)'],
+      componentRestrictions: {country: "au"}
+    }
   });
+
 ```
 
 ### To use HTML5 and get user's geolocation
