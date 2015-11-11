@@ -74,8 +74,8 @@ This will hook the Google Place Auto-Complete on the DOM input element with ID '
         var place = places.getPlace();
 
         MAP.panTo({
-          lat: place.geometry.location.G,
-          lng: place.geometry.location.K
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng()
         });
       }
     }],
