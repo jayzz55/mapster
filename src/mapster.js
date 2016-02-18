@@ -18,7 +18,8 @@
       this.markers = List.create();
 
       if (opts.cluster) {
-        this.markerClusterer = new MarkerClusterer(this.gMap, [], { ignoreHidden: true } );
+        var clusterOpts = opts.cluster.options ? opts.cluster.options : { ignoreHidden: true };
+        this.markerClusterer = new MarkerClusterer(this.gMap, [], clusterOpts );
       }
 
       if (opts.geocoder) {
